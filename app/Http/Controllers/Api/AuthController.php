@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register(LoginRequest $request)
+    public function register(RegisterRequest $request)
     {
         $data = $request->validated();
         $user = User::create([
@@ -26,7 +26,7 @@ class AuthController extends Controller
 
     }
 
-    public function login(RegisterRequest $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
         if(Auth::attempt($credentials)) {
