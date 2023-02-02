@@ -8,7 +8,7 @@ export default function Register() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
-    const [errors, setErrors] = useState
+    const [errors, setErrors] = useState(null);
 
     const {setUser, setToken} = useStateContext()
 
@@ -31,6 +31,7 @@ export default function Register() {
                 const response = err.response;
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
+                    setErrors(response.data.errors)
                 }
         })
     }
@@ -41,6 +42,12 @@ export default function Register() {
                     <h1 className="title">
                         Signup for free
                     </h1>
+                    { errors && <div className="alert">
+                        {Object.keys(errors).map(key =>(
+                            <p key={key}>{errors[key][0]}</p>
+                        ))}
+                    </div>
+                    }
                     <input ref={nameRef} placeholder="Full Name" />
                     <input ref={emailRef} type="email" placeholder="Email Address" />
                     <input ref={passwordRef} type="password" placeholder="Password" />
