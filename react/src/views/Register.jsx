@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -8,6 +8,7 @@ export default function Register() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
+    const [errors, setErrors] = useState
 
     const {setUser, setToken} = useStateContext()
 
@@ -19,12 +20,14 @@ export default function Register() {
             password: passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
         }
+        console.log(payload)
 
         axiosClient.post('/register', payload)
             .then(({data}) => {
                 setUser(data.user)
                 setToken(data.token)
             }).catch(err => {
+                console.log(err)
                 const response = err.response;
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
